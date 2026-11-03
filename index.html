@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dry Run · Project Proposal</title>
+<meta name="description" content="Dry Run: AI clones go on a first date before you do, so UChicago students who match actually meet.">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1d1b18; --muted: #6b665e; --line: #e4e0d8;
+    --card: #ffffff; --accent: #d6336c; --accent-soft: #fde8ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161513; --fg: #f1eee8; --muted: #a29d94; --line: #2e2b27;
+      --card: #1f1d1a; --accent: #f06595; --accent-soft: #3a1f29;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow { color: var(--muted); font-size: 14px; letter-spacing: .02em; }
+  h1 { font-size: 44px; line-height: 1.05; margin: 8px 0 16px; letter-spacing: -.02em; }
+  .oneliner { font-size: 21px; line-height: 1.45; margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 48px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  p, li { color: var(--fg); }
+  .muted { color: var(--muted); }
+  ol, ul { padding-left: 22px; }
+  li { margin: 4px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; margin: 12px 0;
+  }
+  .quote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 0; }
+  .who { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .tag {
+    display: inline-block; background: var(--accent-soft); color: var(--accent);
+    font-weight: 600; font-size: 13px; padding: 2px 10px; border-radius: 999px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 8px; border-top: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; width: 34%; }
+  .week { display: grid; gap: 12px; }
+  footer { margin-top: 56px; color: var(--muted); font-size: 14px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="eyebrow">Design, Build, Ship · MPCS 51238 · Project Proposal · Anees Amjad</div>
+  <h1>Dry Run</h1>
+  <p class="oneliner"><strong>UChicago students match and talk to a lot of people but rarely end up on a date.</strong> Dry Run sends your AI clone on a first date with theirs, then gives you both a reason to meet.</p>
+
+  <h2>The problem</h2>
+  <p>My friend Hammad matched with people and never met anyone. The problem isn't finding matches, it's <em>conversion</em>: you talk to a lot of people, it's all small talk, and nothing comes of it.</p>
+  <p>Research says not to promise chemistry: machine learning couldn't predict which specific pairs would be attracted to each other from 100+ traits (Joel, Eastwick &amp; Finkel, 2017). So Dry Run doesn't give a score. It shows where two people align, where they'd clash, and what to talk about.</p>
+
+  <h2>How it works</h2>
+  <ol>
+    <li><strong>Sign up</strong> with a uchicago.edu email.</li>
+    <li><strong>Build your clone</strong> in a ~10-minute AI interview. It saves a private profile: your values, dealbreakers, and how you handle conflict. (Interview-based agents matched people's survey answers 85% as well as people matched themselves two weeks later; Park et al., 2024.)</li>
+    <li><strong>Browse</strong> a small UChicago pool and tap "interested." A mutual tap unlocks a clone date.</li>
+    <li><strong>The clones go on a date:</strong> a normal first conversation and a disagreement. You can watch it live.</li>
+    <li><strong>Get a report:</strong> where you aligned, where you'd clash, and 3 conversation starters. No score.</li>
+    <li><strong>"Want to meet?"</strong> If you both say yes, you see each other's contact info. A week later: "Did you meet?"</li>
+  </ol>
+
+  <h3>Rules</h3>
+  <ul>
+    <li>Clones never message real people.</li>
+    <li>Both people opt in before any clone date. You can delete your clone anytime.</li>
+    <li>The output is a reason to meet, not a score.</li>
+    <li>Block and report are in from day one.</li>
+  </ul>
+
+  <h3>Why not Volar?</h3>
+  <p>Volar ran clone-to-clone first dates built from likes and dislikes. The NYT reviewer said they rarely helped him understand the real person. Two LLM clones agree with everything. Dry Run fixes that: each clone is a separate model call with a private profile and hidden dealbreakers, a director agent adds friction, and a separate judge writes the report from a rubric.</p>
+
+  <h2>My users</h2>
+  <p>UChicago students who use dating apps, match, and chat, but rarely turn it into a date.</p>
+
+  <div class="card">
+    <p class="quote">Matched and never met anyone. You talk to a lot of people but don't actually end up going on a date.</p>
+    <div class="who">Hammad, UChicago student (my summary of what he told me)</div>
+  </div>
+  <div class="card">
+    <p class="quote">[Interview 2: their words]</p>
+    <div class="who">[Name, who they are]</div>
+  </div>
+  <div class="card">
+    <p class="quote">[Interview 3: their words]</p>
+    <div class="who">[Name, who they are]</div>
+  </div>
+
+  <h2>Focus: <span class="tag">AI</span></h2>
+  <p>The part only I can build is the AI: clones that disagree honestly instead of agreeing with everything. The app calls models itself, uses tools to run each scenario, and has evals to check how well it works. Design polish and the pool get less of my time.</p>
+
+  <h3>How I'll know it works</h3>
+  <table>
+    <tr><th>Conversion</th><td>30% of pairs who both say "want to meet" actually meet within a week.</td></tr>
+    <tr><th>Mismatch detection</th><td>On 20 test pairs with a planted dealbreaker, the report names the clash 80% of the time.</td></tr>
+    <tr><th>Honest disagreement</th><td>In the disagreement scenario, clones hold their own positions in 70% of runs, scored by the judge.</td></tr>
+  </table>
+
+  <h2>Roadmap</h2>
+  <div class="week">
+    <div class="card">
+      <strong>Week 1 · Nov 10–17 · v1, works end to end</strong>
+      <ul>
+        <li>First, the riskiest part: a script where two clones go on a date and actually disagree. Director, judge, and 10 test pairs.</li>
+        <li>Clone interview → private profile.</li>
+        <li>Sign up (uchicago.edu), profile, pool, mutual "interested," block and report.</li>
+        <li>Clone date runs in the background; watch it live; report.</li>
+        <li>"Want to meet?" contact swap and "Did you meet?" follow-up. Seed the pool with people I know.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>Week 2 · Nov 17–24</strong>
+      <ul>
+        <li>Grow the evals to 20 test pairs; tune the director and judge until they hit the targets.</li>
+        <li>Get real UChicago pairs through it and fix what they hit.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong>Week 3 · Nov 24–Dec 1 · v2 at the fair</strong>
+      <ul>
+        <li>Friend nominations: a friend suggests two people, and both have to accept.</li>
+        <li>Fidelity eval: friends guess which answers are the real person and which are the clone.</li>
+        <li>Fair demo: a clone date live on screen, plus the conversion numbers.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="muted"><strong>Fallback:</strong> if the clones aren't disagreeing honestly by Nov 13, the live view waits for v2 and the report arrives when it's ready.</p>
+  <p class="muted"><strong>Leaving out:</strong> other schools, messaging inside the app, chatting with someone's clone, a matching algorithm, voice or video, and making money.</p>
+
+  <h2>Tech stack</h2>
+  <table>
+    <tr><th>Next.js on Vercel</th><td>What I built Ironlog with. One app for the pages and the server code that calls the model.</td></tr>
+    <tr><th>Clerk</th><td>Sign-in, limited to uchicago.edu emails. Same as Ironlog.</td></tr>
+    <tr><th>Supabase</th><td>Postgres with row-level security so private clone profiles are never sent to the other person. Realtime so you can watch the date unfold, like Dockcheck's live updates.</td></tr>
+    <tr><th>Claude API</th><td>Haiku 5.5 for each clone's turns (a separate call per clone, so they can't read each other's private profile). Sonnet 5.5 for the judge. The director uses tool calls to add events and end scenes. About $0.06 per clone date.</td></tr>
+    <tr><th>Vercel Workflow</th><td>A clone date is ~70 model calls, longer than one request. Each turn runs as a step that can retry.</td></tr>
+    <tr><th>Eval script</th><td>Runs the test pairs from the terminal and scores mismatch detection and honest disagreement.</td></tr>
+  </table>
+
+  <h3>MCP servers</h3>
+  <ul>
+    <li><strong>Supabase:</strong> tables, security rules, and checking the data while I build.</li>
+    <li><strong>Vercel:</strong> deploys and logs for the background clone dates.</li>
+    <li><strong>GitHub:</strong> issues and pull requests.</li>
+    <li><strong>Playwright:</strong> tests the full path from sign-up to report in a real browser.</li>
+    <li><strong>Context7:</strong> current docs for Next.js, Supabase, Clerk, and the Claude API.</li>
+  </ul>
+
+  <h3>CLIs</h3>
+  <p><code>vercel</code>, <code>supabase</code>, <code>gh</code>, <code>clerk</code></p>
+
+  <h3>Staying on free tiers</h3>
+  <ul>
+    <li><strong>Claude API:</strong> no free tier. A separate workspace with a $10/month spend limit and an email alert at $5.</li>
+    <li><strong>Supabase:</strong> free plan, no card (500 MB, 200 live connections).</li>
+    <li><strong>Vercel Hobby:</strong> pauses instead of charging when you go over.</li>
+    <li><strong>Clerk:</strong> free up to 50,000 users.</li>
+  </ul>
+
+  <footer>Anees Amjad · Autumn 2026</footer>
+</main>
+</body>
+</html>
