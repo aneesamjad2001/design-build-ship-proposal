@@ -5,183 +5,433 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dry Run · Project Proposal</title>
 <meta name="description" content="Dry Run: AI clones go on a first date before you do, so UChicago students who match actually meet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #fbfaf7; --fg: #1d1b18; --muted: #6b665e; --line: #e4e0d8;
-    --card: #ffffff; --accent: #d6336c; --accent-soft: #fde8ef;
+    --bg: #faf8f4; --fg: #1c1a17; --muted: #6d675e; --line: #e7e2d9;
+    --card: #ffffff; --soft: #f3efe8;
+    --accent: #c92a5f; --accent-soft: #fce7ef;
+    --a: #3b5bdb; --a-soft: #e7ecff;
+    --good: #2b8a3e; --good-soft: #e6f4ea;
+    --warn: #b35c00; --warn-soft: #fff1e0;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.05);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #161513; --fg: #f1eee8; --muted: #a29d94; --line: #2e2b27;
-      --card: #1f1d1a; --accent: #f06595; --accent-soft: #3a1f29;
+      --bg: #141311; --fg: #f2efe9; --muted: #a39e95; --line: #2c2925;
+      --card: #1d1b18; --soft: #24221e;
+      --accent: #f06595; --accent-soft: #3a1d29;
+      --a: #91a7ff; --a-soft: #1f2640;
+      --good: #69db7c; --good-soft: #17301d;
+      --warn: #ffa94d; --warn-soft: #3a2711;
+      --shadow: none;
     }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   body {
     margin: 0; background: var(--bg); color: var(--fg);
-    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    font: 16px/1.6 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-  main { max-width: 720px; margin: 0 auto; padding: 48px 16px 80px; }
-  .eyebrow { color: var(--muted); font-size: 14px; letter-spacing: .02em; }
-  h1 { font-size: 44px; line-height: 1.05; margin: 8px 0 16px; letter-spacing: -.02em; }
-  .oneliner { font-size: 21px; line-height: 1.45; margin: 0 0 8px; }
-  h2 { font-size: 22px; margin: 48px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); }
-  h3 { font-size: 17px; margin: 24px 0 6px; }
-  p, li { color: var(--fg); }
-  .muted { color: var(--muted); }
-  ol, ul { padding-left: 22px; }
-  li { margin: 4px 0; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-    padding: 16px 18px; margin: 12px 0;
-  }
-  .quote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 0; }
-  .who { color: var(--muted); font-size: 14px; margin-top: 6px; }
-  .tag {
-    display: inline-block; background: var(--accent-soft); color: var(--accent);
-    font-weight: 600; font-size: 13px; padding: 2px 10px; border-radius: 999px;
-  }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
-  th, td { text-align: left; vertical-align: top; padding: 10px 8px; border-top: 1px solid var(--line); }
-  th { color: var(--muted); font-weight: 600; width: 34%; }
-  .week { display: grid; gap: 12px; }
-  footer { margin-top: 56px; color: var(--muted); font-size: 14px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
   a { color: var(--accent); }
+  code { font: 14px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--soft); padding: 2px 6px; border-radius: 6px; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; gap: 20px; height: 52px; }
+  .brand { font-family: "Instrument Serif", serif; font-size: 24px; text-decoration: none; color: var(--fg); white-space: nowrap; }
+  .links { min-width: 0; display: flex; gap: 18px; overflow-x: auto; scrollbar-width: none; font-size: 14px; }
+  .links::-webkit-scrollbar { display: none; }
+  .links a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .links a:hover { color: var(--fg); }
+
+  /* Hero */
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding: 64px 0 56px; }
+  .eyebrow { color: var(--muted); font-size: 13px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(56px, 9vw, 88px); line-height: .95; margin: 12px 0 20px; letter-spacing: -.01em; }
+  h1 em { color: var(--accent); }
+  .oneliner { font-size: 20px; line-height: 1.5; margin: 0 0 24px; }
+  .oneliner strong { font-weight: 600; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+  .pill b { color: var(--accent); font-weight: 600; }
+
+  /* Example chat */
+  .chat { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+  .chat-head { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .live { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--accent); }
+  .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  @media (prefers-reduced-motion: reduce) { .live::before { animation: none; } }
+  .msg { max-width: 85%; padding: 9px 13px; border-radius: 16px; font-size: 14px; line-height: 1.45; margin: 6px 0; }
+  .msg .n { display: block; font-size: 11px; font-weight: 600; opacity: .7; margin-bottom: 2px; }
+  .msg.a { background: var(--a-soft); border-bottom-left-radius: 4px; }
+  .msg.a .n { color: var(--a); opacity: 1; }
+  .msg.b { background: var(--accent-soft); margin-left: auto; border-bottom-right-radius: 4px; }
+  .msg.b .n { color: var(--accent); opacity: 1; }
+  .event { text-align: center; font-size: 12px; color: var(--muted); margin: 10px 0; }
+  .event span { background: var(--soft); padding: 4px 10px; border-radius: 999px; }
+  .judge { margin-top: 12px; border-top: 1px dashed var(--line); padding-top: 12px; font-size: 13px; }
+  .judge div { margin: 3px 0; }
+  .judge b { font-weight: 600; }
+  .caption { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+  /* Sections */
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  .sec-head { display: grid; grid-template-columns: 220px 1fr; gap: 32px; }
+  .label { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding-top: 8px; }
+  h2 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 38px; line-height: 1.1; margin: 0 0 16px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 32px 0 12px; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: 18px; }
+  .muted { color: var(--muted); }
+  .cite { font-size: 13px; color: var(--muted); }
+
+  .grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+
+  /* Steps */
+  .step { display: flex; gap: 14px; }
+  .num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+  .step p { margin: 0; font-size: 15px; }
+  .step strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+  .rules { list-style: none; padding: 0; margin: 0; }
+  .rules li { padding: 10px 0 10px 30px; position: relative; border-bottom: 1px solid var(--line); }
+  .rules li:last-child { border-bottom: 0; }
+  .rules li::before { content: "✓"; position: absolute; left: 4px; color: var(--good); font-weight: 700; }
+
+  .vs h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; }
+  .vs ul { margin: 0; padding-left: 18px; font-size: 15px; }
+  .vs li { margin: 4px 0; }
+  .vs .them h4 { color: var(--muted); }
+  .vs .us { border-color: var(--accent); }
+  .vs .us h4 { color: var(--accent); }
+
+  /* Quotes */
+  .q { display: flex; flex-direction: column; gap: 12px; }
+  .q blockquote { margin: 0; font-family: "Instrument Serif", serif; font-size: 21px; line-height: 1.3; }
+  .q blockquote::before { content: "“"; color: var(--accent); }
+  .q blockquote::after { content: "”"; color: var(--accent); }
+  .q .ctx { display: block; font-family: Inter, sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+  .q .ctx::before, .q .ctx::after { content: none; }
+  .who { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); font-weight: 500; }
+
+  .learn { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .learn li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .tag.good { background: var(--good-soft); color: var(--good); }
+  .tag.warn { background: var(--warn-soft); color: var(--warn); }
+  .tag.ai { background: var(--accent-soft); color: var(--accent); font-size: 14px; }
+
+  /* Stats */
+  .stat .big { font-family: "Instrument Serif", serif; font-size: 56px; line-height: 1; color: var(--accent); }
+  .stat .k { font-weight: 600; margin: 8px 0 4px; }
+  .stat p { font-size: 14px; color: var(--muted); margin: 0; }
+
+  /* Timeline */
+  .tl { position: relative; padding-left: 28px; }
+  .tl::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+  .tl-item { position: relative; margin-bottom: 16px; }
+  .tl-item::before { content: ""; position: absolute; left: -27px; top: 22px; width: 14px; height: 14px; border-radius: 50%; background: var(--card); border: 3px solid var(--accent); }
+  .tl-item.off::before { border-color: var(--line); }
+  .tl-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 8px; }
+  .tl-top strong { font-size: 17px; }
+  .tl-top .date { color: var(--muted); font-size: 14px; }
+  .tl-item ul { margin: 0; padding-left: 18px; font-size: 15px; }
+  .tl-item li { margin: 4px 0; }
+  .risk { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--warn); background: var(--warn-soft); padding: 1px 7px; border-radius: 4px; margin-right: 4px; }
+  .callout { border-left: 3px solid var(--warn); background: var(--card); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 15px; margin: 8px 0; }
+  .callout.plain { border-left-color: var(--line); }
+
+  /* Stack */
+  .tool h4 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+  .tool p { margin: 0; font-size: 14px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 14px; padding: 6px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); }
+  .chip b { font-weight: 600; }
+  .chip span { color: var(--muted); }
+
+  footer { padding: 40px 0 64px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 40px 0; }
+    .sec-head { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .label { padding-top: 0; }
+    .g3 { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .g2 { grid-template-columns: minmax(0, 1fr); }
+    h2 { font-size: 32px; }
+    .oneliner { font-size: 18px; }
+    .learn li { grid-template-columns: 1fr; gap: 4px; }
+  }
 </style>
 </head>
 <body>
-<main>
 
-  <div class="eyebrow">Design, Build, Ship · MPCS 51238 · Project Proposal · Anees Amjad</div>
-  <h1>Dry Run</h1>
-  <p class="oneliner"><strong>UChicago students match and talk to a lot of people but rarely end up on a date.</strong> Dry Run sends your AI clone on a first date with theirs, then gives you both a reason to meet.</p>
-
-  <h2>The problem</h2>
-  <p>A friend of mine matched with people and never met anyone. The problem isn't finding matches, it's <em>conversion</em>: you talk to a lot of people, it's all small talk, and nothing comes of it.</p>
-  <p>Research says not to promise chemistry: machine learning couldn't predict which specific pairs would be attracted to each other from 100+ traits (Joel, Eastwick &amp; Finkel, 2017). So Dry Run doesn't give a score. It shows where two people align, where they'd clash, and what to talk about.</p>
-
-  <h2>How it works</h2>
-  <ol>
-    <li><strong>Sign up</strong> with a uchicago.edu email.</li>
-    <li><strong>Build your clone</strong> in a ~10-minute AI interview. It saves a private profile: your values, dealbreakers, and how you handle conflict. (Interview-based agents matched people's survey answers 85% as well as people matched themselves two weeks later; Park et al., 2024.)</li>
-    <li><strong>Browse</strong> a small UChicago pool and tap "interested." A mutual tap unlocks a clone date.</li>
-    <li><strong>The clones go on a date:</strong> a normal first conversation and a disagreement. You can watch it live.</li>
-    <li><strong>Get a report:</strong> where you aligned, where you'd clash, and 3 conversation starters. No score.</li>
-    <li><strong>"Want to meet?"</strong> If you both say yes, you see each other's contact info. A week later: "Did you meet?"</li>
-  </ol>
-
-  <h3>Rules</h3>
-  <ul>
-    <li>Clones never message real people.</li>
-    <li>Both people opt in before any clone date. You can delete your clone anytime.</li>
-    <li>The output is a reason to meet, not a score.</li>
-    <li>Block and report are in from day one.</li>
-  </ul>
-
-  <h3>Why not Volar?</h3>
-  <p>Volar ran clone-to-clone first dates built from likes and dislikes. The NYT reviewer said they rarely helped him understand the real person. Two LLM clones agree with everything. Dry Run fixes that: each clone is a separate model call with a private profile and hidden dealbreakers, a director agent adds friction, and a separate judge writes the report from a rubric.</p>
-
-  <h2>My users</h2>
-  <p>UChicago students who use dating apps, match, and chat, but rarely turn it into a date.</p>
-
-  <div class="card">
-    <p class="quote">Matched and never met anyone. You talk to a lot of people but don't actually end up going on a date.</p>
-    <div class="who">Interviewee 1 (my summary of what they told me)</div>
-  </div>
-  <div class="card">
-    <p class="quote">We kept on talking for almost a week and after that they started seen-zoning my msgs and then we did not meet.</p>
-    <p class="quote">[When a date did happen] It was instant. We talked for a couple of days and went on a date the same weekend.</p>
-    <p class="quote">People are so busy and they don't know if the person they are talking to will be actually a good match for them.</p>
-    <div class="who">Interviewee 2</div>
-  </div>
-  <div class="card">
-    <p class="quote">I think they didn't like me.</p>
-    <p class="quote">[When a date did happen] I think we clicked through humour.</p>
-    <p class="quote">There are a lot of matches women have.</p>
-    <div class="who">Interviewee 3</div>
-  </div>
-
-  <h3>What I learned</h3>
-  <ul>
-    <li><strong>Chats fizzle.</strong> People talk for days and then stop replying before anyone meets.</li>
-    <li><strong>People can't tell if it's a good match,</strong> and they're too busy to find out by trial and error.</li>
-    <li><strong>This one cuts against my idea:</strong> the date that did happen came from momentum, meeting the same weekend. If Dry Run is slow, it could kill that. So the clone interview happens once at sign-up, and after a mutual match the clone date and report should arrive within minutes.</li>
-    <li><strong>So does this one:</strong> "we clicked through humour" and "they didn't like me" are chemistry, which clones can't predict. That's why the report gives a reason to meet, not a verdict.</li>
-    <li><strong>Attention is scarce.</strong> Women have a lot of matches, so most conversations get lost. A report with real things in common gives one match a reason to stand out.</li>
-  </ul>
-
-  <h2>Focus: <span class="tag">AI</span></h2>
-  <p>The part only I can build is the AI: clones that disagree honestly instead of agreeing with everything. The app calls models itself, uses tools to run each scenario, and has evals to check how well it works. Design polish and the pool get less of my time.</p>
-
-  <h3>How I'll know it works</h3>
-  <table>
-    <tr><th>Conversion</th><td>30% of pairs who both say "want to meet" actually meet within a week.</td></tr>
-    <tr><th>Mismatch detection</th><td>On 20 test pairs with a planted dealbreaker, the report names the clash 80% of the time.</td></tr>
-    <tr><th>Honest disagreement</th><td>In the disagreement scenario, clones hold their own positions in 70% of runs, scored by the judge.</td></tr>
-  </table>
-
-  <h2>Roadmap</h2>
-  <div class="week">
-    <div class="card">
-      <strong>Week 1 · Nov 10–17 · v1, works end to end</strong>
-      <ul>
-        <li>First, the riskiest part: a script where two clones go on a date and actually disagree. Director, judge, and 10 test pairs.</li>
-        <li>Clone interview → private profile.</li>
-        <li>Sign up (uchicago.edu), profile, pool, mutual "interested," block and report.</li>
-        <li>Clone date runs in the background; watch it live; report.</li>
-        <li>"Want to meet?" contact swap and "Did you meet?" follow-up. Seed the pool with people I know.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <strong>Week 2 · Nov 17–24</strong>
-      <ul>
-        <li>Grow the evals to 20 test pairs; tune the director and judge until they hit the targets.</li>
-        <li>Get real UChicago pairs through it and fix what they hit.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <strong>Week 3 · Nov 24–Dec 1 · v2 at the fair</strong>
-      <ul>
-        <li>Friend nominations: a friend suggests two people, and both have to accept.</li>
-        <li>Fidelity eval: friends guess which answers are the real person and which are the clone.</li>
-        <li>Fair demo: a clone date live on screen, plus the conversion numbers.</li>
-      </ul>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Dry Run</a>
+    <div class="links">
+      <a href="#problem">Problem</a>
+      <a href="#how">How it works</a>
+      <a href="#users">Users</a>
+      <a href="#focus">Focus</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#stack">Stack</a>
     </div>
   </div>
-  <p class="muted"><strong>Fallback:</strong> if the clones aren't disagreeing honestly by Nov 13, the live view waits for v2 and the report arrives when it's ready.</p>
-  <p class="muted"><strong>Leaving out:</strong> other schools, messaging inside the app, chatting with someone's clone, a matching algorithm, voice or video, and making money.</p>
+</nav>
 
-  <h2>Tech stack</h2>
-  <table>
-    <tr><th>Next.js on Vercel</th><td>What I built Ironlog with. One app for the pages and the server code that calls the model.</td></tr>
-    <tr><th>Clerk</th><td>Sign-in, limited to uchicago.edu emails. Same as Ironlog.</td></tr>
-    <tr><th>Supabase</th><td>Postgres with row-level security so private clone profiles are never sent to the other person. Realtime so you can watch the date unfold, like Dockcheck's live updates.</td></tr>
-    <tr><th>Claude API</th><td>Haiku 5.5 for each clone's turns (a separate call per clone, so they can't read each other's private profile). Sonnet 5.5 for the judge. The director uses tool calls to add events and end scenes. About $0.06 per clone date.</td></tr>
-    <tr><th>Vercel Workflow</th><td>A clone date is ~70 model calls, longer than one request. Each turn runs as a step that can retry.</td></tr>
-    <tr><th>Eval script</th><td>Runs the test pairs from the terminal and scores mismatch detection and honest disagreement.</td></tr>
-  </table>
+<main class="wrap" id="top">
 
-  <h3>MCP servers</h3>
-  <ul>
-    <li><strong>Supabase:</strong> tables, security rules, and checking the data while I build.</li>
-    <li><strong>Vercel:</strong> deploys and logs for the background clone dates.</li>
-    <li><strong>GitHub:</strong> issues and pull requests.</li>
-    <li><strong>Playwright:</strong> tests the full path from sign-up to report in a real browser.</li>
-    <li><strong>Context7:</strong> current docs for Next.js, Supabase, Clerk, and the Claude API.</li>
-  </ul>
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Design, Build, Ship · Project Proposal · Anees Amjad</div>
+      <h1>Dry <em>Run</em></h1>
+      <p class="oneliner"><strong>UChicago students match and talk to a lot of people but rarely end up on a date.</strong> Dry Run sends your AI clone on a first date with theirs, then gives you both a reason to meet.</p>
+      <div class="pills">
+        <span class="pill">Focus: <b>AI</b></span>
+        <span class="pill">v1 · Nov 17</span>
+        <span class="pill">v2 · Fair, Dec 1</span>
+      </div>
+    </div>
 
-  <h3>CLIs</h3>
-  <p><code>vercel</code>, <code>supabase</code>, <code>gh</code>, <code>clerk</code></p>
+    <div>
+      <div class="chat" aria-label="Example clone date">
+        <div class="chat-head"><span>Clone date · Scenario 2: a disagreement</span><span class="live">Live</span></div>
+        <div class="msg a"><span class="n">Your clone</span>Honestly I'd rather stay in Chicago over break and save money.</div>
+        <div class="msg b"><span class="n">Their clone</span>I get that, but travel is non-negotiable for me. It's how I recharge.</div>
+        <div class="event"><span>Director: a friend invites you both on a $300 weekend trip</span></div>
+        <div class="msg a"><span class="n">Your clone</span>That's my whole month's budget. I'd say no.</div>
+        <div class="msg b"><span class="n">Their clone</span>I'd go, even if I had to cut back after.</div>
+        <div class="judge">
+          <div><span class="tag good">Aligned</span> Both want something serious</div>
+          <div><span class="tag warn">Clash</span> Money vs. experiences</div>
+          <div><b>Ask them:</b> the best trip they've taken on a budget?</div>
+        </div>
+      </div>
+      <div class="caption">Illustrative example, not real output</div>
+    </div>
+  </header>
 
-  <h3>Staying on free tiers</h3>
-  <ul>
-    <li><strong>Claude API:</strong> no free tier. A separate workspace with a $10/month spend limit and an email alert at $5.</li>
-    <li><strong>Supabase:</strong> free plan, no card (500 MB, 200 live connections).</li>
-    <li><strong>Vercel Hobby:</strong> pauses instead of charging when you go over.</li>
-    <li><strong>Clerk:</strong> free up to 50,000 users.</li>
-  </ul>
+  <section id="problem">
+    <div class="sec-head">
+      <div class="label">The problem</div>
+      <div>
+        <h2>Matches don't turn into dates.</h2>
+        <p class="lead">A friend of mine matched with people and never met anyone. The problem isn't finding matches, it's <em>conversion</em>: you talk to a lot of people, it's all small talk, and nothing comes of it.</p>
+        <p>Research says not to promise chemistry: machine learning couldn't predict which specific pairs would be attracted to each other from 100+ traits. So Dry Run doesn't give a score. It shows where two people align, where they'd clash, and what to talk about.</p>
+        <p class="cite">Joel, Eastwick &amp; Finkel (2017), Psychological Science.</p>
+      </div>
+    </div>
+  </section>
 
-  <footer>Anees Amjad · Autumn 2026</footer>
+  <section id="how">
+    <div class="sec-head">
+      <div class="label">How it works</div>
+      <div>
+        <h2>Six steps, one real date.</h2>
+        <div class="grid g2">
+          <div class="card step"><div class="num">1</div><p><strong>Sign up</strong>with a uchicago.edu email.</p></div>
+          <div class="card step"><div class="num">2</div><p><strong>Build your clone</strong>in a ~10-minute AI interview. It saves a private profile: your values, dealbreakers, and how you handle conflict.</p></div>
+          <div class="card step"><div class="num">3</div><p><strong>Browse</strong>a small UChicago pool and tap "interested." A mutual tap unlocks a clone date.</p></div>
+          <div class="card step"><div class="num">4</div><p><strong>The clones go on a date</strong>a normal first conversation and a disagreement. You can watch it live.</p></div>
+          <div class="card step"><div class="num">5</div><p><strong>Get a report</strong>where you aligned, where you'd clash, and 3 conversation starters. No score.</p></div>
+          <div class="card step"><div class="num">6</div><p><strong>"Want to meet?"</strong>If you both say yes, you see each other's contact info. A week later: "Did you meet?"</p></div>
+        </div>
+        <p class="cite" style="margin-top:12px">Why an interview: interview-based agents matched people's survey answers 85% as well as people matched themselves two weeks later (Park et al., 2024).</p>
+
+        <h3>Rules</h3>
+        <div class="card">
+          <ul class="rules">
+            <li>Clones never message real people.</li>
+            <li>Both people opt in before any clone date. You can delete your clone anytime.</li>
+            <li>The output is a reason to meet, not a score.</li>
+            <li>Block and report are in from day one.</li>
+          </ul>
+        </div>
+
+        <h3>Why not Volar?</h3>
+        <div class="grid g2 vs">
+          <div class="card them">
+            <h4>Volar</h4>
+            <ul>
+              <li>Clone-to-clone first dates built from likes and dislikes.</li>
+              <li>The NYT reviewer said they rarely helped him understand the real person.</li>
+              <li>Two LLM clones agree with everything.</li>
+            </ul>
+          </div>
+          <div class="card us">
+            <h4>Dry Run</h4>
+            <ul>
+              <li>Each clone is a separate model call with a private profile and hidden dealbreakers.</li>
+              <li>A director agent adds friction.</li>
+              <li>A separate judge writes the report from a rubric.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="users">
+    <div class="sec-head">
+      <div class="label">My users</div>
+      <div>
+        <h2>What they told me.</h2>
+        <p class="lead">UChicago students who use dating apps, match, and chat, but rarely turn it into a date.</p>
+        <div class="grid g3">
+          <div class="card q">
+            <blockquote>Matched and never met anyone. You talk to a lot of people but don't actually end up going on a date.</blockquote>
+            <div class="who">Interviewee 1 · my summary of what they told me</div>
+          </div>
+          <div class="card q">
+            <blockquote>We kept on talking for almost a week and after that they started seen-zoning my msgs and then we did not meet.</blockquote>
+            <blockquote><span class="ctx">When a date did happen</span>It was instant. We talked for a couple of days and went on a date the same weekend.</blockquote>
+            <blockquote>People are so busy and they don't know if the person they are talking to will be actually a good match for them.</blockquote>
+            <div class="who">Interviewee 2</div>
+          </div>
+          <div class="card q">
+            <blockquote>I think they didn't like me.</blockquote>
+            <blockquote><span class="ctx">When a date did happen</span>I think we clicked through humour.</blockquote>
+            <blockquote>There are a lot of matches women have.</blockquote>
+            <div class="who">Interviewee 3</div>
+          </div>
+        </div>
+
+        <h3>What I learned</h3>
+        <div class="card">
+          <ul class="learn">
+            <li><span class="tag good">Supports</span><span><strong>Chats fizzle.</strong> People talk for days and then stop replying before anyone meets.</span></li>
+            <li><span class="tag good">Supports</span><span><strong>People can't tell if it's a good match,</strong> and they're too busy to find out by trial and error.</span></li>
+            <li><span class="tag good">Supports</span><span><strong>Attention is scarce.</strong> Women have a lot of matches, so most conversations get lost. A report with real things in common gives one match a reason to stand out.</span></li>
+            <li><span class="tag warn">Cuts against</span><span>The date that did happen came from <strong>momentum</strong>, meeting the same weekend. If Dry Run is slow, it could kill that. So the clone interview happens once at sign-up, and after a mutual match the clone date and report should arrive within minutes.</span></li>
+            <li><span class="tag warn">Cuts against</span><span>"We clicked through humour" and "they didn't like me" are <strong>chemistry</strong>, which clones can't predict. That's why the report gives a reason to meet, not a verdict.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="focus">
+    <div class="sec-head">
+      <div class="label">Focus</div>
+      <div>
+        <h2>Focus: <span class="tag ai">AI</span></h2>
+        <p class="lead">The part only I can build is the AI: clones that disagree honestly instead of agreeing with everything.</p>
+        <p>The app calls models itself, uses tools to run each scenario, and has evals to check how well it works. Design polish and the pool get less of my time.</p>
+
+        <h3>How I'll know it works</h3>
+        <div class="grid g3">
+          <div class="card stat"><div class="big">30%</div><div class="k">Conversion</div><p>of pairs who both say "want to meet" actually meet within a week.</p></div>
+          <div class="card stat"><div class="big">80%</div><div class="k">Mismatch detection</div><p>On 20 test pairs with a planted dealbreaker, the report names the clash.</p></div>
+          <div class="card stat"><div class="big">70%</div><div class="k">Honest disagreement</div><p>of runs where clones hold their own positions in the disagreement scenario, scored by the judge.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="sec-head">
+      <div class="label">Roadmap</div>
+      <div>
+        <h2>Riskiest part first.</h2>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="card">
+              <div class="tl-top"><strong>Week 1 · v1, works end to end</strong><span class="date">Nov 10–17</span></div>
+              <ul>
+                <li><span class="risk">Riskiest</span>A script where two clones go on a date and actually disagree. Director, judge, and 10 test pairs.</li>
+                <li>Clone interview → private profile.</li>
+                <li>Sign up (uchicago.edu), profile, pool, mutual "interested," block and report.</li>
+                <li>Clone date runs in the background; watch it live; report.</li>
+                <li>"Want to meet?" contact swap and "Did you meet?" follow-up. Seed the pool with people I know.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="card">
+              <div class="tl-top"><strong>Week 2</strong><span class="date">Nov 17–24</span></div>
+              <ul>
+                <li>Grow the evals to 20 test pairs; tune the director and judge until they hit the targets.</li>
+                <li>Get real UChicago pairs through it and fix what they hit.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="card">
+              <div class="tl-top"><strong>Week 3 · v2 at the fair</strong><span class="date">Nov 24–Dec 1 · no class Nov 24</span></div>
+              <ul>
+                <li>Friend nominations: a friend suggests two people, and both have to accept.</li>
+                <li>Fidelity eval: friends guess which answers are the real person and which are the clone.</li>
+                <li>Fair demo: a clone date live on screen, plus the conversion numbers.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="callout"><strong>Fallback:</strong> if the clones aren't disagreeing honestly by Nov 13, the live view waits for v2 and the report arrives when it's ready.</div>
+        <div class="callout plain"><strong>Leaving out:</strong> other schools, messaging inside the app, chatting with someone's clone, a matching algorithm, voice or video, and making money.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="sec-head">
+      <div class="label">Tech stack</div>
+      <div>
+        <h2>Built on what I've shipped.</h2>
+        <div class="grid g2">
+          <div class="card tool"><h4>Next.js on Vercel</h4><p>What I built Ironlog with. One app for the pages and the server code that calls the model.</p></div>
+          <div class="card tool"><h4>Clerk</h4><p>Sign-in, limited to uchicago.edu emails. Same as Ironlog.</p></div>
+          <div class="card tool"><h4>Supabase</h4><p>Postgres with row-level security so private clone profiles are never sent to the other person. Realtime so you can watch the date unfold, like Dockcheck's live updates.</p></div>
+          <div class="card tool"><h4>Claude API</h4><p>Haiku 5.5 for each clone's turns (a separate call per clone, so they can't read each other's private profile). Sonnet 5.5 for the judge. The director uses tool calls to add events and end scenes. About $0.06 per clone date.</p></div>
+          <div class="card tool"><h4>Vercel Workflow</h4><p>A clone date is ~70 model calls, longer than one request. Each turn runs as a step that can retry.</p></div>
+          <div class="card tool"><h4>Eval script</h4><p>Runs the test pairs from the terminal and scores mismatch detection and honest disagreement.</p></div>
+        </div>
+
+        <h3>MCP servers</h3>
+        <div class="chips">
+          <span class="chip"><b>Supabase</b> <span>tables, security rules, checking data</span></span>
+          <span class="chip"><b>Vercel</b> <span>deploys and logs for background clone dates</span></span>
+          <span class="chip"><b>GitHub</b> <span>issues and pull requests</span></span>
+          <span class="chip"><b>Playwright</b> <span>tests sign-up to report in a real browser</span></span>
+          <span class="chip"><b>Context7</b> <span>current docs for Next.js, Supabase, Clerk, Claude API</span></span>
+        </div>
+
+        <h3>CLIs</h3>
+        <div class="chips">
+          <code>vercel</code><code>supabase</code><code>gh</code><code>clerk</code>
+        </div>
+
+        <h3>Staying on free tiers</h3>
+        <div class="grid g2">
+          <div class="card tool"><h4>Claude API</h4><p>No free tier. A separate workspace with a $10/month spend limit and an email alert at $5.</p></div>
+          <div class="card tool"><h4>Supabase</h4><p>Free plan, no card (500 MB, 200 live connections).</p></div>
+          <div class="card tool"><h4>Vercel Hobby</h4><p>Pauses instead of charging when you go over.</p></div>
+          <div class="card tool"><h4>Clerk</h4><p>Free up to 50,000 users.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<footer>
+  <div class="wrap">Anees Amjad · Design, Build, Ship · MPCS 51238 · Autumn 2026</div>
+</footer>
+
 </body>
 </html>
